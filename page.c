@@ -2,6 +2,7 @@
 
 CUI_page page_main;
 CUI_page page_find;
+
 CUI_err page_main_init();
 CUI_err page_find_init();
 
@@ -13,6 +14,8 @@ CUI_err CUI_init()
 
 	return CUI_err_code(CUI_err_ok);
 }
+
+//page_main页面的初始化函数
 CUI_err page_main_init()
 {
 	CUI_check_error();
@@ -21,7 +24,7 @@ CUI_err page_main_init()
 	CUI_widget_init(&opt);
 
 	//绘制一个告示牌
-	opt.board.title = L"标题页";
+	opt.board.title = L"第一行";
 	CUI_widget_board(opt);
 
 	//绘制一个标签
@@ -31,24 +34,40 @@ CUI_err page_main_init()
 	//绘制一条分割线
 	CUI_widget_line(opt);
 
-	CUI_wprintf(L"请输入文字：");
-	wchar_t buf[40] = { 0 };
-	CUI_wscanf_s(L"%s", buf, 40);
-	
+	//CUI_input(L"请输入：");
 
-	getchar();
+	CUI_wprintf(L"请输入：");
+
+	wchar_t buf[40] = { 0 };
+
+	CUI_wscanf_s(L"%s", buf, 40);
+
+	CUI_input(L"请按任意键翻页...");
+
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"A_ABABBABAA" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"B_ABABBABA" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"C_ABABBABA" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"D" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"E_ABABBABA" });
+
+	CUI_widget_menu(opt);
 	CUI_page_active(page_find);
 
 	return CUI_err_code(CUI_err_ok);
 }
+
 CUI_err page_find_init()
 {
+	CUI_check_error();
+
 	CUI_option opt;
 	CUI_widget_init(&opt);
 
 	//绘制一个告示牌
 	opt.board.title = L"第二页";
 	CUI_widget_board(opt);
-	getchar();
+
+	CUI_input(L"请输入：");
+
 	return CUI_err_code(CUI_err_ok);
 }

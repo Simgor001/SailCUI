@@ -43,7 +43,6 @@ CUI_err CUI_page_new(CUI_page* self, CUI_err(*init)(), uint8_t width, wchar_t bo
 }
 CUI_err CUI_page_del(CUI_page self)
 {
-
 	fclose(self->fp);
 	//这里出错了，可能要优化一下free部分
 	//free(self);
@@ -52,7 +51,6 @@ CUI_err CUI_page_del(CUI_page self)
 CUI_err CUI_page_active(CUI_page self)
 {
 	CUI_check_error();
-
 
 	//设置当前页面
 	_CUI_dat_page_stack->node = self;

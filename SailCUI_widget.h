@@ -8,6 +8,7 @@
 			self.line_word = self.line_word?self.line_word:_CUI_dat_page->line_word;\
 			self.width = self.width?self.width:_CUI_dat_page->width; }
 
+
 /*
 	组件-告示板：board
 	样式：
@@ -69,7 +70,9 @@ typedef struct _CUI_item
 	/*
 	如果有符号，菜单就返回符号，如果没符号，就返回索引
 	*/
-	char sign;		//(可选)符号，默认使用索引
+	char *sign;		//(可选)符号，默认使用索引
+	uint8_t sign_len;    //(可选)标题长度
+
 	void(*fun)();	//(可选)选中时执行的函数
 	uint8_t len;    //(可选)标题长度
 } CUI_item;
@@ -90,7 +93,9 @@ typedef struct _CUI_menu
 	uint8_t len;			//标题长度
 
 	CUI_item* items;		//选项数组
-	uint8_t items_count;	//选项个数
+	uint8_t items_qty;	//选项个数
+
+	uint8_t max;	//一行最多放多少项
 
 } CUI_menu;
 
@@ -121,11 +126,12 @@ typedef union _CUI_widget
 }CUI_option;
 
 CUI_err CUI_widget_init(CUI_option* opt);
+
 CUI_err CUI_widget_board(CUI_option opt);
 CUI_err CUI_widget_line(CUI_option opt);
 CUI_err CUI_widget_lable(CUI_option opt);
 
 CUI_err CUI_widget_menu(CUI_option opt);
-CUI_err CUI_widget_menu_item(CUI_option opt, CUI_item itm);
+CUI_err CUI_widget_menu_item(CUI_option* opt, CUI_item itm);
 
 #endif

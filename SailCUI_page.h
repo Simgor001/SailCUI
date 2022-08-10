@@ -19,7 +19,7 @@ typedef struct _CUI_page
 {
 	FILE* fp;					//输出流临时文件
 
-	CUI_err(*init)();			//初始化
+	CUI_err(*init)();			//初始化函数
 
 	uint8_t width;				//页面宽度
 	wchar_t border_word;		//全局边界字符

@@ -5,10 +5,9 @@ CUI_err CUI_main(int argc, char const *argv[])
 {
     //初始化CUI库
     CUI_init();
+
     //显示page_main页面
     CUI_page_active(page_main);
     
-    //CUI_page_del(page_main);
     return 0;
 }
-

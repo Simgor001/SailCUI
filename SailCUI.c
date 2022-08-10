@@ -14,8 +14,10 @@ int main(int argc, char const* argv[])
 {
 	setlocale(LC_ALL, "chs");
 	//printf("CUI库正在启动...");
+
 	_CUI_page_init();
 	CUI_cls();
+
 	CUI_main(argc, argv);
 	// while (CUI_flush() != CUI_err_exit)
 	//     ;
@@ -24,7 +26,7 @@ int main(int argc, char const* argv[])
 	return 0;
 }
 
-int CUI_wprintf(const wchar_t const* fmt, ...)
+int CUI_wprintf(const wchar_t* fmt, ...)
 {
 	va_list ap;
 
@@ -38,12 +40,13 @@ int CUI_wprintf(const wchar_t const* fmt, ...)
 	return count;
 }
 
-int CUI_wscanf_s(const wchar_t const* fmt, ...)
+/*用来获取字符串时，记得指定最大长度*/
+int CUI_wscanf_s(const wchar_t* fmt, ...)
 {
 	va_list ap;
 
 	va_start(ap, fmt);
-	int count = vwscanf_s(fmt,ap);
+	int count = vwscanf_s(fmt, ap);
 	va_end(ap);
 
 	va_start(ap, fmt);
@@ -57,7 +60,38 @@ wint_t CUI_putwchar(wchar_t _Character)
 	putwchar(_Character);
 	return fputwc(_Character, _CUI_dat_page->fp);
 }
+wint_t CUI_getwchar(void)
+{
+	wint_t tmp = getwchar();
+	fputwc(tmp, _CUI_dat_page->fp);
+	fputwc(L'\n', _CUI_dat_page->fp);
 
+	return tmp;
+}
+wint_t CUI_input(const wchar_t* str)
+{
+	wprintf(L"%s", str);
+	fwprintf(_CUI_dat_page->fp, L"%s", str);
+
+	wint_t tmp = getwchar();
+	fputwc(tmp, _CUI_dat_page->fp);
+	fputwc(L'\n', _CUI_dat_page->fp);
+
+	char c = 0;
+	while ((c = getchar()) != '\n'&& c!='\0' && c != EOF )
+		continue;
+
+	return tmp;
+}
+
+size_t CUI_strwlen(const wchar_t* str)
+{
+	size_t i = 0;
+	size_t len = 0;
+	while (str[i] != L'\0')
+		len += str[i++] > 0xFF ? 2 : 1;
+	return len;
+}
 
 CUI_err CUI_flush()
 {

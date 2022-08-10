@@ -13,10 +13,15 @@
 //全局类：CUI
 
 //清屏
-#define CUI_cls() system("cls");
-int CUI_wprintf(const wchar_t const* fmt, ...);
-int CUI_wscanf_s(const wchar_t const* fmt, ...);
+#define CUI_cls() fflush(stdin);system("cls");
+int CUI_wprintf(const wchar_t * fmt, ...);
+int CUI_wscanf_s(const wchar_t * fmt, ...);
 wint_t CUI_putwchar(const wchar_t _Character);
+wint_t CUI_getwchar(void);
+wint_t CUI_input(const wchar_t* str);
+size_t CUI_strwlen(const wchar_t* str);
+
+
 /*
  =================================================================
 	全局-错误类：CUI_err
@@ -34,11 +39,11 @@ wint_t CUI_putwchar(const wchar_t _Character);
 //检查错误
 #define CUI_check_error() if(_CUI_dat_err)return CUI_err_err;
 //检查指针是否为空
-#define CUI_check_null(p,err,info) if(p == NULL) return CUI_err_code_info(err, info);
+#define CUI_check_null(p,err,info) if(p == NULL) return CUI_err_code_info(err, info)
 //返回错误
-#define CUI_err_code(err) err?_CUI_err_error(err,__FILE__,__LINE__,""):CUI_err_ok;
+#define CUI_err_code(err) err?_CUI_err_error(err,__FILE__,__LINE__,""):CUI_err_ok
 //返回错误，且设定提示信息
-#define CUI_err_code_info(err,info) err?_CUI_err_error(err,__FILE__,__LINE__,info):CUI_err_ok;
+#define CUI_err_code_info(err,info) err?_CUI_err_error(err,__FILE__,__LINE__,info):CUI_err_ok
 
 //错误码
 typedef enum
@@ -48,7 +53,8 @@ typedef enum
 	CUI_err_stack,
 	CUI_err_page,		//新建页面失败
 	CUI_err_page_fp,	//为页面分配临时文件失败
-	CUI_err_menu_item	//为menu_items分配内存失败
+	CUI_err_menu_item,	
+	CUI_err_menu
 } CUI_err;
 
 //全局错误码
