@@ -7,6 +7,8 @@ CUI_err CUI_main(int argc, char const *argv[])
     CUI_init();
     //œ‘ æpage_main“≥√Ê
     CUI_page_active(page_main);
+    
+    //CUI_page_del(page_main);
     return 0;
 }
 

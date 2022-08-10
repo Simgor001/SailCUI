@@ -24,12 +24,24 @@
     <ClCompile Include="SailCUI.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SailCUI_widget.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SailCUI_page.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="page.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SailCUI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SailCUI_widget.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SailCUI_page.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -101,7 +101,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <SDLCheck>true</SDLCheck>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <LanguageStandard>Default</LanguageStandard>
       <EnableModules>true</EnableModules>
     </ClCompile>
@@ -110,10 +110,14 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="page.c" />
     <ClCompile Include="SailCUI.c" />
+    <ClCompile Include="SailCUI_page.c" />
+    <ClCompile Include="SailCUI_widget.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="page.h" />
     <ClInclude Include="SailCUI.h" />
+    <ClInclude Include="SailCUI_page.h" />
+    <ClInclude Include="SailCUI_widget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

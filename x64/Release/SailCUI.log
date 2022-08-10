@@ -1,0 +1,9 @@
+﻿  main.c
+  page.c
+  SailCUI.c
+  正在生成代码...
+D:\Project-C\SailCUI\SailCUI.c(36): warning C4716: “CUI_putwchar”: 必须返回一个值
+D:\Project-C\SailCUI\SailCUI.c(97): warning C4715: “CUI_page_close”: 不是所有的控件路径都返回值
+D:\Project-C\SailCUI\page.c(35): warning C4716: “page_find_init”: 必须返回一个值
+D:\Project-C\SailCUI\page.c(14): warning C4716: “CUI_init”: 必须返回一个值
+  SailCUI.vcxproj -> D:\Project-C\SailCUI\x64\Release\SailCUI.exe
