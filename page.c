@@ -3,10 +3,10 @@
 CUI_page page_main;
 CUI_page page_find;
 
-CUI_err page_main_init();
-CUI_err page_find_init();
+CUI_err page_main_init(void);
+CUI_err page_find_init(void);
 
-CUI_err CUI_init()
+CUI_err CUI_init(void)
 {
 	//先创建页面，再创建组件
 	CUI_page_new(&page_main, page_main_init, 50, L'#', L'-');
@@ -16,7 +16,7 @@ CUI_err CUI_init()
 }
 
 //page_main页面的初始化函数
-CUI_err page_main_init()
+CUI_err page_main_init(void)
 {
 	CUI_check_error();
 
@@ -72,8 +72,7 @@ CUI_err page_main_init()
 	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"查看" });
 	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"关于" });
 	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"" });
-	wchar_t w[] = L"Q";
-	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"退出", .sign = w, .sign_len = 2 });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"退出", .sign = "Q" });
 
 	//设置菜单选项间最小宽度
 	opt.menu.cut_width_min = 2;

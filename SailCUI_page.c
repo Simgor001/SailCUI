@@ -1,4 +1,12 @@
 #include "SailCUI_page.h"
+
+//全局当前活动页面
+CUI_page _CUI_dat_page = { 0 };
+//全局页面栈
+CUI_stack _CUI_dat_page_stack;
+//全局页面栈节点数量
+uint8_t _CUI_dat_page_stack_count = 0;
+
 CUI_err _CUI_page_init()
 {
 	CUI_check_error();
@@ -22,11 +30,11 @@ CUI_err _CUI_page_deinit()
 	return CUI_err_code(CUI_err_ok);
 }
 
-CUI_err CUI_page_new(CUI_page* self, CUI_err(*init)(), uint8_t width, wchar_t border_word, wchar_t line_word)
+CUI_err CUI_page_new(CUI_page* self, CUI_err(*init)(void), uint8_t width, wchar_t border_word, wchar_t line_word)
 {
 	CUI_check_error();
 
-	CUI_page tmp = (CUI_page)malloc(sizeof(CUI_page));
+	CUI_page tmp = (CUI_page)malloc(sizeof(struct _CUI_page));
 	CUI_check_null(tmp, CUI_err_page, "为page分配内存失败！");
 
 	if (tmpfile_s(&(tmp->fp)))
@@ -44,8 +52,7 @@ CUI_err CUI_page_new(CUI_page* self, CUI_err(*init)(), uint8_t width, wchar_t bo
 CUI_err CUI_page_del(CUI_page self)
 {
 	fclose(self->fp);
-	//这里出错了，可能要优化一下free部分
-	//free(self);
+	free(self);
 	return CUI_err_code(CUI_err_ok);
 }
 CUI_err CUI_page_active(CUI_page self)

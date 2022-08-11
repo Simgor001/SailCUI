@@ -85,9 +85,9 @@ CUI_err CUI_stack_pop(CUI_stack* stack);
 // CUI程序入口
 extern CUI_err CUI_main(int argc, char const* argv[]);
 // CUI程序配置部分
-extern CUI_err CUI_init();
+extern CUI_err CUI_init(void);
 //刷新
-CUI_err CUI_flush();
+CUI_err CUI_flush(void);
 
 #include "SailCUI_page.h"
 #include "SailCUI_widget.h"

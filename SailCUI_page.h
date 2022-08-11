@@ -19,7 +19,7 @@ typedef struct _CUI_page
 {
 	FILE* fp;					//输出流临时文件
 
-	CUI_err(*init)();			//初始化函数
+	CUI_err(*init)(void);			//初始化函数
 
 	uint8_t width;				//页面宽度
 	wchar_t border_word;		//全局边界字符
@@ -39,7 +39,7 @@ CUI_err _CUI_page_init();
 //反初始化页面
 CUI_err _CUI_page_deinit();
 //创建页面
-CUI_err CUI_page_new(CUI_page* self, CUI_err(*init)(), uint8_t width, wchar_t border_word, wchar_t line_word);
+CUI_err CUI_page_new(CUI_page* self, CUI_err(*init)(void), uint8_t width, wchar_t border_word, wchar_t line_word);
 //销毁页面
 CUI_err CUI_page_del(CUI_page self);
 //激活页面

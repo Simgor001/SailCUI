@@ -1,11 +1,5 @@
 #include "SailCUI.h"
 
-//全局当前活动页面
-CUI_page _CUI_dat_page = { 0 };
-//全局页面栈
-CUI_stack _CUI_dat_page_stack;
-//全局页面栈节点数量
-uint8_t _CUI_dat_page_stack_count = 0;
 
 //全局错误码
 CUI_err _CUI_dat_err;
@@ -28,6 +22,9 @@ int main(int argc, char const* argv[])
 
 int CUI_wprintf(const wchar_t* fmt, ...)
 {
+	/*
+		要重写'\t'部分，不然无法识别导致边框溢出
+	*/
 	va_list ap;
 
 	va_start(ap, fmt);
@@ -55,11 +52,13 @@ int CUI_wscanf_s(const wchar_t* fmt, ...)
 	va_end(ap);
 	return count;
 }
+
 wint_t CUI_putwchar(wchar_t _Character)
 {
 	putwchar(_Character);
 	return fputwc(_Character, _CUI_dat_page->fp);
 }
+
 wint_t CUI_getwchar(void)
 {
 	wint_t tmp = getwchar();
@@ -68,6 +67,7 @@ wint_t CUI_getwchar(void)
 
 	return tmp;
 }
+
 wint_t CUI_input(const wchar_t* str)
 {
 	wprintf(L"%s", str);
@@ -77,8 +77,8 @@ wint_t CUI_input(const wchar_t* str)
 	fputwc(tmp, _CUI_dat_page->fp);
 	fputwc(L'\n', _CUI_dat_page->fp);
 
-	char c = 0;
-	while ((c = getchar()) != '\n'&& c!='\0' && c != EOF )
+	int c = 0;
+	while ((c = getchar()) != '\n' && c != '\0' && c != EOF)
 		continue;
 
 	return tmp;
@@ -118,7 +118,7 @@ CUI_err CUI_stack_new(CUI_stack* stack)
 {
 	CUI_check_error();
 
-	CUI_stack tmp = (CUI_stack)malloc(sizeof(CUI_stack));
+	CUI_stack tmp = (CUI_stack)malloc(sizeof(struct _CUI_stack));
 	CUI_check_null(tmp, CUI_err_stack, "新建stack时，为stack分配内存失败！");
 
 	tmp->node = NULL;
@@ -135,7 +135,7 @@ CUI_err CUI_stack_push(CUI_stack* stack)
 
 	CUI_check_null(stack, CUI_err_stack, "不允许对NULL进行入栈操作！");
 
-	CUI_stack tmp = (CUI_stack)malloc(sizeof(CUI_stack));
+	CUI_stack tmp = (CUI_stack)malloc(sizeof(struct _CUI_stack));
 	CUI_check_null(tmp, CUI_err_stack, "入栈时，为stack分配内存失败！");
 
 	tmp->node = NULL;
@@ -146,6 +146,7 @@ CUI_err CUI_stack_push(CUI_stack* stack)
 
 	return CUI_err_code(CUI_err_ok);
 }
+
 CUI_err CUI_stack_pop(CUI_stack* stack)
 {
 	CUI_check_error();
@@ -153,9 +154,7 @@ CUI_err CUI_stack_pop(CUI_stack* stack)
 	CUI_check_null(*stack, CUI_err_stack, "不允许对NULL进行出栈操作！");
 
 	CUI_stack tmp = (*stack)->p;
-	CUI_stack pre = *stack;
-	//free(pre);
-
+	free(*stack);
 	*stack = tmp;
 
 	return CUI_err_code(CUI_err_ok);
