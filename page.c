@@ -36,21 +36,41 @@ CUI_err page_main_init()
 
 	//CUI_input(L"请输入：");
 
-	CUI_wprintf(L"请输入：");
+	/*CUI_wprintf(L"请输入：");
 
 	wchar_t buf[40] = { 0 };
 
 	CUI_wscanf_s(L"%s", buf, 40);
 
-	CUI_input(L"请按任意键翻页...");
+	CUI_input(L"请按任意键翻页...");*/
 
-	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"A_ABABBABAA" });
-	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"B_ABABBABA" });
-	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"C_ABABBABA" });
-	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"D" });
-	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"E_ABABBABA" });
+	//设置菜单选项
+	/*CUI_widget_menu_item(&opt, (CUI_item) { .title = L"添加hhhhhh" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"修改" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"测试的" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"排序" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"凑数2333" });*/
 
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"添加" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"修改" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"排序" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"删除" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"查看" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"关于" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"" });
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"退出" });
+
+	//设置菜单选项间最小宽度
+	opt.menu.cut_width_min = 2;
+	//设置菜单一行选项数最大值
+	opt.menu.line_max = 4;
+	//绘制菜单
 	CUI_widget_menu(opt);
+
+	//绘制一条分割线
+	CUI_widget_line(opt);
+
+	CUI_input(L"请按任意键翻页...");
 	CUI_page_active(page_find);
 
 	return CUI_err_code(CUI_err_ok);

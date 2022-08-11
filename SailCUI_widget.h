@@ -93,9 +93,10 @@ typedef struct _CUI_menu
 	uint8_t len;			//标题长度
 
 	CUI_item* items;		//选项数组
-	uint8_t items_qty;	//选项个数
+	uint8_t items_qty;		//选项个数
 
-	uint8_t max;	//一行最多放多少项
+	uint8_t line_max;			//一行最多放多少项
+	uint8_t cut_width_min;	//分隔符最小宽度
 
 } CUI_menu;
 

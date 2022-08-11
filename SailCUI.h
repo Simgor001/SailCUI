@@ -14,8 +14,10 @@
 
 //«Â∆¡
 #define CUI_cls() fflush(stdin);system("cls");
+
 int CUI_wprintf(const wchar_t * fmt, ...);
 int CUI_wscanf_s(const wchar_t * fmt, ...);
+
 wint_t CUI_putwchar(const wchar_t _Character);
 wint_t CUI_getwchar(void);
 wint_t CUI_input(const wchar_t* str);
