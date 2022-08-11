@@ -23,16 +23,30 @@ CUI_err page_main_init()
 	CUI_option opt;
 	CUI_widget_init(&opt);
 
+	//绘制一条分割线
+	opt.line.line_word = L'=';
+	CUI_widget_line(&opt);
+
 	//绘制一个告示牌
-	opt.board.title = L"第一行";
-	CUI_widget_board(opt);
+	opt.board.title = L"XXX学生信息管理系统";
+	CUI_widget_board(&opt);
 
 	//绘制一个标签
-	opt.lable.title = L"在这里输入的数据，等下还会显示的";
-	CUI_widget_lable(opt);
+	opt.lable.title = L"当前文件：file.data";
+	CUI_widget_lable(&opt);
 
 	//绘制一条分割线
-	CUI_widget_line(opt);
+	CUI_widget_line(&opt);
+
+	//绘制一个标签
+	opt.lable.title = L"学生总数： 2 （名）";
+	CUI_widget_lable(&opt);
+	//绘制一个标签
+	opt.lable.title = L"数据项：   5 （项）";
+	CUI_widget_lable(&opt);
+
+	//绘制一条分割线
+	CUI_widget_line(&opt);
 
 	//CUI_input(L"请输入：");
 
@@ -58,19 +72,21 @@ CUI_err page_main_init()
 	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"查看" });
 	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"关于" });
 	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"" });
-	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"退出" });
+	wchar_t w[] = L"Q";
+	CUI_widget_menu_item(&opt, (CUI_item) { .title = L"退出", .sign = w, .sign_len = 2 });
 
 	//设置菜单选项间最小宽度
 	opt.menu.cut_width_min = 2;
 	//设置菜单一行选项数最大值
 	opt.menu.line_max = 4;
 	//绘制菜单
-	CUI_widget_menu(opt);
+	CUI_widget_menu(&opt);
 
 	//绘制一条分割线
-	CUI_widget_line(opt);
+	opt.line.line_word = L'=';
+	CUI_widget_line(&opt);
 
-	CUI_input(L"请按任意键翻页...");
+	CUI_input(L">请选择操作：");
 	CUI_page_active(page_find);
 
 	return CUI_err_code(CUI_err_ok);
@@ -85,7 +101,7 @@ CUI_err page_find_init()
 
 	//绘制一个告示牌
 	opt.board.title = L"第二页";
-	CUI_widget_board(opt);
+	CUI_widget_board(&opt);
 
 	CUI_input(L"请输入：");
 

@@ -10,11 +10,11 @@ CUI_err CUI_widget_init(CUI_option* opt)
 }
 
 //绘制告示板函数
-CUI_err CUI_widget_board(CUI_option opt)
+CUI_err CUI_widget_board(CUI_option* opt)
 {
 	CUI_check_error();
 
-	CUI_board self = _CUI_inheript_opt(opt.board);
+	CUI_board self = _CUI_inheript_opt(opt->board);
 
 	int len = CUI_strwlen(self.title);
 
@@ -37,16 +37,17 @@ CUI_err CUI_widget_board(CUI_option opt)
 	for (int i = 0; i < self.width - 4; i++)
 		CUI_putwchar(self.line_word);
 	CUI_wprintf(L" %c\n", self.border_word);
-	CUI_widget_init(&opt);
+	
+	CUI_widget_init(opt);
 
 	return CUI_err_code(CUI_err_ok);
 }
 
 //绘制分割线函数
-CUI_err CUI_widget_line(CUI_option opt)
+CUI_err CUI_widget_line(CUI_option * opt)
 {
 	CUI_check_error();
-	CUI_line self = _CUI_inheript_opt(opt.line);
+	CUI_line self = _CUI_inheript_opt(opt->line);
 
 	CUI_wprintf(L"%c ", self.border_word);
 	for (int i = 0; i < self.width - 4; i++)
@@ -54,16 +55,16 @@ CUI_err CUI_widget_line(CUI_option opt)
 	CUI_wprintf(L" %c\n", self.border_word);
 
 	//清空选项，以备下一次使用
-	CUI_widget_init(&opt);
+	CUI_widget_init(opt);
 
 	return CUI_err_code(CUI_err_ok);
 }
 
 // 绘制标签函数
-CUI_err CUI_widget_lable(CUI_option opt)
+CUI_err CUI_widget_lable(CUI_option *opt)
 {
 	CUI_check_error();
-	CUI_lable self = _CUI_inheript_opt(opt.lable);
+	CUI_lable self = _CUI_inheript_opt(opt->lable);
 
 
 	int len = CUI_strwlen(self.title);
@@ -75,16 +76,16 @@ CUI_err CUI_widget_lable(CUI_option opt)
 		CUI_putwchar(' ');
 
 	CUI_wprintf(L" %c\n", self.border_word);
-	CUI_widget_init(&opt);
+	CUI_widget_init(opt);
 
 	return CUI_err_code(CUI_err_ok);
 }
 
 
-CUI_err CUI_widget_menu(CUI_option opt)
+CUI_err CUI_widget_menu(CUI_option * opt)
 {
 	CUI_check_error();
-	CUI_menu self = _CUI_inheript_opt(opt.menu);
+	CUI_menu self = _CUI_inheript_opt(opt->menu);
 
 	uint8_t item_width_max = 0;
 	uint8_t item_width = 0;
@@ -212,7 +213,7 @@ CUI_err CUI_widget_menu(CUI_option opt)
 		CUI_wprintf(L" %c\n", self.border_word);
 
 	}
-	CUI_widget_init(&opt);
+	CUI_widget_init(opt);
 	return CUI_err_code(CUI_err_ok);
 }
 CUI_err CUI_widget_menu_item(CUI_option* opt, CUI_item itm)
@@ -266,9 +267,9 @@ CUI_err CUI_widget_menu_item(CUI_option* opt, CUI_item itm)
 	}
 	else
 	{
-		len = strlen(itm.sign);
+		len = CUI_strwlen(itm.sign);
 		self.items[self.items_qty - 1].sign_len = len;
-		strncpy_s(self.items[self.items_qty - 1].sign, len, itm.sign, len);
+		self.items[self.items_qty - 1].sign = itm.sign;
 	}
 
 	self.items[self.items_qty - 1].fun = itm.fun;

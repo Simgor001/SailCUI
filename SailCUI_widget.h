@@ -128,11 +128,11 @@ typedef union _CUI_widget
 
 CUI_err CUI_widget_init(CUI_option* opt);
 
-CUI_err CUI_widget_board(CUI_option opt);
-CUI_err CUI_widget_line(CUI_option opt);
-CUI_err CUI_widget_lable(CUI_option opt);
+CUI_err CUI_widget_board(CUI_option* opt);
+CUI_err CUI_widget_line(CUI_option* opt);
+CUI_err CUI_widget_lable(CUI_option* opt);
 
-CUI_err CUI_widget_menu(CUI_option opt);
+CUI_err CUI_widget_menu(CUI_option* opt);
 CUI_err CUI_widget_menu_item(CUI_option* opt, CUI_item itm);
 
 #endif
