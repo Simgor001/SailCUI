@@ -25,6 +25,8 @@ typedef struct _CUI_page
 	wchar_t border_word;		//全局边界字符
 	wchar_t line_word;			//全局分割线字符
 
+	uint8_t stdout_width;//当前输出行已输出的宽度
+
 } *CUI_page;
 
 //全局当前活动页面

@@ -8,6 +8,7 @@ CUI_err page_find_init(void);
 
 CUI_err CUI_init(void)
 {
+
 	//先创建页面，再创建组件
 	CUI_page_new(&page_main, page_main_init, 50, L'#', L'-');
 	CUI_page_new(&page_find, page_find_init, 50, L'@', L'=');
@@ -39,10 +40,10 @@ CUI_err page_main_init(void)
 	CUI_widget_line(&opt);
 
 	//绘制一个标签
-	opt.lable.title = L"学生总数： 2 （名）";
+	opt.lable.title = L"学生总数：\t2 （名）";
 	CUI_widget_lable(&opt);
 	//绘制一个标签
-	opt.lable.title = L"数据项：   5 （项）";
+	opt.lable.title = L"数据项：\t5 （项）";
 	CUI_widget_lable(&opt);
 
 	//绘制一条分割线

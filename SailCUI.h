@@ -13,10 +13,12 @@
 //全局类：CUI
 
 //清屏
-#define CUI_cls() fflush(stdin);system("cls");
+#define CUI_cls() _CUI_dat_stdout_width=0;fflush(stdin);system("cls");
 
-int CUI_wprintf(const wchar_t * fmt, ...);
-int CUI_wscanf_s(const wchar_t * fmt, ...);
+extern uint8_t _CUI_dat_stdout_width;
+
+size_t CUI_wprintf(const wchar_t * fmt, ...);
+size_t CUI_wscanf_s(const wchar_t * fmt, ...);
 
 wint_t CUI_putwchar(const wchar_t _Character);
 wint_t CUI_getwchar(void);
@@ -52,6 +54,7 @@ typedef enum
 {
 	CUI_err_ok,			//无错误
 	CUI_err_err,		//需要退出
+	CUI_err_stdout,
 	CUI_err_stack,
 	CUI_err_page,		//新建页面失败
 	CUI_err_page_fp,	//为页面分配临时文件失败

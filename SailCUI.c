@@ -2,7 +2,10 @@
 
 
 //全局错误码
-CUI_err _CUI_dat_err;
+CUI_err _CUI_dat_err = CUI_err_ok;
+
+//全局当前输出行已输出的宽度
+uint8_t _CUI_dat_stdout_width;
 
 int main(int argc, char const* argv[])
 {
@@ -19,31 +22,82 @@ int main(int argc, char const* argv[])
 	system("pause");
 	return 0;
 }
-
-int CUI_wprintf(const wchar_t* fmt, ...)
+size_t CUI_wprintf(const wchar_t* fmt, ...)
 {
-	/*
-		要重写'\t'部分，不然无法识别导致边框溢出
-	*/
 	va_list ap;
 
 	va_start(ap, fmt);
-	int count = vwprintf(fmt, ap);
+
+	//SailCUI库里面，为数不多把数组写死的地方
+	wchar_t buf[255] = { 0 };
+
+	uint8_t count = (uint8_t)vswprintf(buf, 255, fmt, ap);
+
+	/*
+		首先统计有多少个\t，每一个\t都分配4个位置
+		注意，如果没有换行，stdout_width不能被刷新
+	*/
+
+	//循环完毕之后，i就是fmt字符串的长度
+	uint8_t i = 0;
+	uint8_t tab_count = 0;
+	while (buf[i] != L'\0')
+		if (buf[i++] == L'\t')
+			tab_count++;
+
+	//结束符要2字节
+	uint8_t  str_len = i + tab_count * 3 + 2;
+	wchar_t* str = NULL;
+	str = (wchar_t*)calloc((str_len), sizeof(wchar_t));
+
+	CUI_check_null(str, CUI_err_stdout, "为格式化字符串分配内存失败！");
+
+	//原字符串索引
+	i = 0;
+	//新字符串索引
+	count = 0;
+	//用于计算tab空格数
+	uint8_t tab = 0;
+	while (buf[i] != L'\0')
+		if (buf[i] == L'\t')
+		{
+			tab = 4 - (_CUI_dat_stdout_width % 4);
+			for (int n = 0; n < tab; n++)
+			{
+				_CUI_dat_stdout_width++;
+				str[count++] = L' ';
+			}
+			i++;
+		}
+		else if (count < str_len)
+		{
+			str[count++] = buf[i];
+			if (buf[i] == L'\n')
+				_CUI_dat_stdout_width = 0;
+			else
+				_CUI_dat_stdout_width += buf[i] > 0xff ? 2 : 1;
+			i++;
+		}
+	if (str[0] != '\0')
+		_CUI_dat_stdout_width--;
+	str[count] = L'\0';
+
+	vwprintf(str, ap);
 	va_end(ap);
 
 	va_start(ap, fmt);
-	vfwprintf(_CUI_dat_page->fp, fmt, ap);
+	vfwprintf(_CUI_dat_page->fp, str, ap);
 	va_end(ap);
-	return count;
+	return (size_t)count - 1;
 }
 
 /*用来获取字符串时，记得指定最大长度*/
-int CUI_wscanf_s(const wchar_t* fmt, ...)
+size_t CUI_wscanf_s(const wchar_t* fmt, ...)
 {
 	va_list ap;
 
 	va_start(ap, fmt);
-	int count = vwscanf_s(fmt, ap);
+	size_t count = vwscanf_s(fmt, ap);
 	va_end(ap);
 
 	va_start(ap, fmt);
@@ -56,6 +110,10 @@ int CUI_wscanf_s(const wchar_t* fmt, ...)
 wint_t CUI_putwchar(wchar_t _Character)
 {
 	putwchar(_Character);
+	if (_Character == L'\n')
+		_CUI_dat_stdout_width = 0;
+	else
+		_CUI_dat_stdout_width += _Character > 0xff ? 2 : 1;
 	return fputwc(_Character, _CUI_dat_page->fp);
 }
 

@@ -44,6 +44,7 @@ CUI_err CUI_page_new(CUI_page* self, CUI_err(*init)(void), uint8_t width, wchar_
 	tmp->width = width;
 	tmp->border_word = border_word;
 	tmp->line_word = line_word;
+	tmp->stdout_width = 0;
 
 	*self = tmp;
 
@@ -61,6 +62,7 @@ CUI_err CUI_page_active(CUI_page self)
 
 	//设置当前页面
 	_CUI_dat_page_stack->node = self;
+	((CUI_page)_CUI_dat_page_stack->node)->stdout_width = _CUI_dat_stdout_width;
 	_CUI_dat_page_stack_count++;
 	//把当前页面添加到栈
 	CUI_stack_push(&_CUI_dat_page_stack);
@@ -101,6 +103,7 @@ CUI_err CUI_page_return(CUI_page self)
 	fseek(page->fp, 0, SEEK_SET);
 
 	CUI_cls();
+	_CUI_dat_stdout_width = page->stdout_width;
 	while (pos-- > 0)
 		putwchar(fgetwc(page->fp));
 

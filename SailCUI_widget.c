@@ -61,17 +61,18 @@ CUI_err CUI_widget_line(CUI_option* opt)
 }
 
 // 绘制标签函数
+// 当前仅该函数支持制表符tab
 CUI_err CUI_widget_lable(CUI_option* opt)
 {
 	CUI_check_error();
 	CUI_lable self = _CUI_inheript_opt(opt->lable);
 
-
-	size_t len = CUI_strwlen(self.title);
-
 	CUI_wprintf(L"%c ", self.border_word);
 
+	uint8_t len = _CUI_dat_stdout_width;
 	CUI_wprintf(L"%s ", self.title);
+	len = _CUI_dat_stdout_width - len;
+	CUI_strwlen(self.title);
 	for (int i = 0; i < (int)(self.width - 5 - (int)len); i++)
 		CUI_putwchar(' ');
 
